@@ -11,17 +11,24 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> items;
     private ListView lvItems;
     private ArrayAdapter<String> itemsAdapter;
+    private  Firebase firebaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setting the firebase context
+        Firebase.setAndroidContext(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -31,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
+
+        //Firebase refers to root
+         firebaseRef = new Firebase(Constants.fireBaseRootRef);
     }
 
 
@@ -49,10 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onAddItem(View v) {
+        HashMap<String, Boolean> itemMap = new HashMap<>();
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
         itemsAdapter.add(itemText);
         etNewItem.setText("");
+
+        //writing to the firebase database
+        itemMap.put(itemText, true);
+        Firebase itemsRef = firebaseRef.child("Items");
+        itemsRef.push().setValue(itemMap);
     }
 
     @Override
