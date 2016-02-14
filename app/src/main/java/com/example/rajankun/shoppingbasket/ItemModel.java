@@ -21,8 +21,22 @@ public class ItemModel {
         return this.itemName;
     }
 
+    public void setItemName(String name){
+        this.itemName = name;
+    }
+
     public String getUniqueId() {
         return uniqueId;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj)
+            return true;
+        if(obj == null || obj.getClass() != this.getClass())
+            return false;
+        ItemModel itemModel = (ItemModel) obj;
+        return this.uniqueId.equals(itemModel.getUniqueId());
     }
 
 }
