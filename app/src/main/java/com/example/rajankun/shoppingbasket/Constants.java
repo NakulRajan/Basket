@@ -6,4 +6,5 @@ package com.example.rajankun.shoppingbasket;
 public class Constants {
 
     public static final String fireBaseRootRef = "https://popping-inferno-7618.firebaseio.com/";
+    public static final String fireBaseItemsRef = "https://popping-inferno-7618.firebaseio.com/Items";
 }
